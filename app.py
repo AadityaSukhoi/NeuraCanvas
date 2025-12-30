@@ -43,7 +43,7 @@ def load_model():
         pipe = StableDiffusionPipeline.from_pretrained(
             model_id,
             torch_dtype=torch.float16,
-            use_auth_token=HF_TOKEN,
+            token=HF_TOKEN,
             safety_checker=None,
             requires_safety_checking=False,
         )
@@ -104,7 +104,7 @@ if st.button("🚀 Generate Image"):
             generator = torch.Generator(device=device).manual_seed(seed)
 
         with st.spinner("Generating image..."):
-            with torch.cuda.amp.autocast():
+            with torch.amp.autocast("cuda"):
                 result = pipe(
                     prompt=prompt,
                     width=width,
@@ -114,8 +114,9 @@ if st.button("🚀 Generate Image"):
                     generator=generator,
                 )
 
+
         image = result.images[0]
-        st.image(image, caption=prompt, use_column_width=True)
+        st.image(image, caption=prompt, use_container_width=True)
 
         # Download
         image_path = "generated_image.jpg"
