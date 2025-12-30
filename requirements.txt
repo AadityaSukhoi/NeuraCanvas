@@ -1,0 +1,7 @@
+streamlit
+diffusers
+torch
+transformers
+accelerate
+pillow
+python-dotenv 
